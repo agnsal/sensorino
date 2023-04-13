@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and limitations 
 #include <Arduino_MKRENV.h> // MKR ENV Shield dependency
 #include <TinyGPS.h>  // GPS dependency
 #include <ArduinoMqttClient.h>  // Mosquitto dependency
-#include <WiFiNINA.h>  // WiFi dependency
+#include <WiFiNINA.h>  // WiFi dependency  
 
 #include "config.h" // Config file
 
@@ -56,8 +56,10 @@ MqttClient mqttClient(wifi);
 // From config file
 const WifiConfigStruct wifiConfig = {.ssid = WIFI_SSID, .pwd = WIFI_PWD};
 const MqttConfigStruct mqttConfig = {.broker = MQTT_BROKER, .port = MQTT_PORT, .topic = MQTT_TOPIC, .clientId = MQTT_CLIENT_ID, .user = MQTT_USER, .pwd = MQTT_PWD};
+const unsigned int sensePeriod = SENSE_PERIOD_SECS; 
 //
 SenseStruct sensed;  // Output
+
  
 void setup() {
   pinMode(ledPin, OUTPUT);
@@ -75,7 +77,7 @@ void loop() {
   sense();
   mqttSend();
   debugPrint();
-  blink(10);
+  blink(sensePeriod);
 }
 
 void serialInit(){
@@ -159,33 +161,33 @@ void mqttSend(){
   Serial.println(mqttConfig.topic);
   
   mqttClient.beginMessage(mqttConfig.topic);
-  mqttClient.print("temperature:");
+  mqttClient.print("{\"temperature\":");
   mqttClient.print(sensed.temperature);
-  mqttClient.print(";");
-//  mqttClient.print("humidity:");
-//  mqttClient.print(sensed.humidity);
-//  mqttClient.print(";");
-//  mqttClient.print("pressure:");
-//  mqttClient.print(sensed.pressure);
-//  mqttClient.print(";");
-  mqttClient.print("illuminance:");
+  mqttClient.print(",");
+  mqttClient.print("\"humidity\":");
+  mqttClient.print(sensed.humidity);
+  mqttClient.print(",");
+  mqttClient.print("\"pressure\":");
+  mqttClient.print(sensed.pressure);
+  mqttClient.print(",");
+  mqttClient.print("\"illuminance\":");
   mqttClient.print(sensed.illuminance);
-  mqttClient.print(";");
-//  mqttClient.print("uva:");
-//  mqttClient.print(sensed.uva);
-//  mqttClient.print(";");
-//  mqttClient.print("uvb:");
-//  mqttClient.print(sensed.uvb);
-//  mqttClient.print(";");
-//  mqttClient.print("uvIndex:");
-//  mqttClient.print(sensed.uvIndex);
-//  mqttClient.print(";");
-  mqttClient.print("latitude:");
+  mqttClient.print(",");
+  mqttClient.print("\"uva\":");
+  mqttClient.print(sensed.uva);
+  mqttClient.print(",");
+  mqttClient.print("\"uvb\":");
+  mqttClient.print(sensed.uvb);
+  mqttClient.print(",");
+  mqttClient.print("\"uvIndex\":");
+  mqttClient.print(sensed.uvIndex);
+  mqttClient.print(",");
+  mqttClient.print("\"latitude\":");
   mqttClient.print(sensed.lat);
-  mqttClient.print(";");
-  mqttClient.print("longitude:");
+  mqttClient.print(",");
+  mqttClient.print("\"longitude\":");
   mqttClient.print(sensed.lon);
-  mqttClient.print(";");
+  mqttClient.print("}");
   mqttClient.endMessage();
 }
 
