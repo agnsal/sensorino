@@ -21,3 +21,5 @@ See the License for the specific language governing permissions and limitations 
 
 #define WIFI_SSID "ssid"
 #define WIFI_PWD "pwd"
+
+#define SENSE_PERIOD_SECS 30
