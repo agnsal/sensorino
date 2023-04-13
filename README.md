@@ -1,5 +1,21 @@
 # sensorino
-A project for Arduino MKR 1010 with MKR ENV Shield and GPS, sending sensor data over Mosquitto.
+A project for Arduino MKR 1010 with MKR ENV Shield and GPS, sending test sensor data over Mosquitto.
+
+## Requirements
+### HW:
+- Arduino MKR WiFi 1010
+- Arduino MKR Enviromental Shield rev2
+- [A GPS sensor]
+- Breadboard with cables [and a led]
+
+### SW:
+- Mosquitto (https://mosquitto.org/)
+- [MQTT X (https://mqttx.app/)]
+
+## MQTT X
+To easily monitor what's going on over Mosquitto, you can use MQTTX (https://mqttx.app/).
+
+![](MqttListener.png)
 
 
 ## Contacts
