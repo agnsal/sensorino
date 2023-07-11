@@ -158,9 +158,9 @@ void sense(){
   }
 }
 
-void mqttSendItem(String topic, String msg){
-  mqttClient.beginMessage(topic);
-  mqttClient.print(msg);
+void mqttSendItem(char* topic, float item){
+  mqttClient.beginMessage(strcat(strcat(mqttConfig.topic, "/"), topic));
+  mqttClient.print(item);
   mqttClient.endMessage();
 }
 
