@@ -166,16 +166,16 @@ void mqttSendItem(char* topic, float item){
 
 void mqttSend(){
   // Serial.print("Sending temperature...");
-  mqttSendItem("sensor/temperature", sensed.temperature);
+  mqttSendItem("temperature", sensed.temperature);
   // Serial.print("Sent\n");
-  mqttSendItem("sensor/humidity", sensed.humidity);
-  mqttSendItem("sensor/pressure", sensed.pressure);
-  mqttSendItem("sensor/illuminance", sensed.illuminance);
-  mqttSendItem("sensor/uva", sensed.uva);
-  mqttSendItem("sensor/uvb", sensed.uvb);
-  mqttSendItem("sensor/uvIndex", sensed.uvIndex);
-  mqttSendItem("sensor/latitude", sensed.lat);
-  mqttSendItem("sensor/longitude", sensed.lon);
+  mqttSendItem("humidity", sensed.humidity);
+  mqttSendItem("pressure", sensed.pressure);
+  mqttSendItem("illuminance", sensed.illuminance);
+  mqttSendItem("uva", sensed.uva);
+  mqttSendItem("uvb", sensed.uvb);
+  mqttSendItem("uvIndex", sensed.uvIndex);
+  mqttSendItem("latitude", sensed.lat);
+  mqttSendItem("longitude", sensed.lon);
 }
 
 void mqttSendJson(){
