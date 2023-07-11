@@ -12,7 +12,6 @@ See the License for the specific language governing permissions and limitations 
 */
 
 #define MQTT_BROKER "test.mosquitto.org"
-#define MQTT_IP "ipAddr"
 #define MQTT_PORT 1883
 #define MQTT_TOPIC "test"
 #define MQTT_CLIENT_ID "arduino0"
