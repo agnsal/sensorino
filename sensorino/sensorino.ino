@@ -76,7 +76,7 @@ void setup() {
 void loop() {
   sense();
   mqttSend();
-  debugPrint();
+  // debugPrint();
   blink(sensePeriod);
 }
 
@@ -127,6 +127,9 @@ void mqttInit(){
 void blink(int deltaSec){
   uint8_t i = 1;
   while(deltaSec >= 0){
+    // call poll() regularly to allow the library to send MQTT keep alives which avoids being disconnected by the broker
+    mqttClient.poll();
+    
     analogWrite(ledPin, i);
     delay(1000);
     analogWrite(ledPin, 0);
@@ -137,6 +140,9 @@ void blink(int deltaSec){
 }
 
 void sense(){
+  // call poll() regularly to allow the library to send MQTT keep alives which avoids being disconnected by the broker
+  mqttClient.poll();
+  
   sensed.temperature = ENV.readTemperature();
   sensed.humidity = ENV.readHumidity();
   sensed.pressure = ENV.readPressure();
@@ -152,11 +158,27 @@ void sense(){
   }
 }
 
-void mqttSend(){
-  // call poll() regularly to allow the library to send MQTT keep alives which
-  // avoids being disconnected by the broker
-  mqttClient.poll();
+void mqttSendItem(String topic, String msg){
+  mqttClient.beginMessage(topic);
+  mqttClient.print(msg);
+  mqttClient.endMessage();
+}
 
+void mqttSend(){
+  // Serial.print("Sending temperature...");
+  mqttSendItem("sensor/temperature", sensed.temperature);
+  // Serial.print("Sent\n");
+  mqttSendItem("sensor/humidity", sensed.humidity);
+  mqttSendItem("sensor/pressure", sensed.pressure);
+  mqttSendItem("sensor/illuminance", sensed.illuminance);
+  mqttSendItem("sensor/uva", sensed.uva);
+  mqttSendItem("sensor/uvb", sensed.uvb);
+  mqttSendItem("sensor/uvIndex", sensed.uvIndex);
+  mqttSendItem("sensor/latitude", sensed.lat);
+  mqttSendItem("sensor/longitude", sensed.lon);
+}
+
+void mqttSendJson(){
   Serial.print("Sending data to topic: ");
   Serial.println(mqttConfig.topic);
   
